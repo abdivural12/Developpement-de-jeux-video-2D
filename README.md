@@ -1,1 +1,1 @@
-# Developpement-de-jeux-video-2D
+# Developpement de jeux video 2D
