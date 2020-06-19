@@ -1,4 +1,4 @@
-# Développement de jeux vidéo 2D
+# Le jeu vidéo 2D: Sauve les Migrants
 ## Contexte
 Ce jeu(Sauve les Migrants) a été développé dans le cadre du cours Développement de jeux vidéo 2D dispensé par Isaac Pante (SLI, Lettres, UNIL) afin qu’appliquer les méthodologies et les notions enseignées dans la création d’un jeu vidéo. 
 ## Description
