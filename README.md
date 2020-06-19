@@ -8,6 +8,7 @@ Le but de ce jeux est de sauver les migrants en mer par le navire humanitaire Al
 ## Outil auteur
 Le jeu a été réalisé avec le Phaser et l'editeur de code(Visual Studio Code).
 ## L'objectif
+L’idée est création d’un jeu vidéo qui pousse à penser aux autres à la place de s’amuser.
 L’objectif est de sensibiliser les gens aux migrants.Chaque jour, dans le monde, des personnes fuient de chez elles. La guerre, les persécutions, les menaces les poussent à fuir leur pays dans l’espoir de trouver un lieu sûr où se mettre à l’abri. Bien sur que cela n’est pas si facile, les migrants doivent traverser les montages, les mers, les frontières et encore d'autres difficultés. Le jeu de « sauve les migrants » médiatise l’une de difficultés des migrants qui traversent les mers. Le type principal de médiation de ce jeu est  d'expérimenter une situation humaine.
 ![Sauve le Migrants](/scenes/Capture2.PNG)
 ## Remarques
