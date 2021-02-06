@@ -1,0 +1,304 @@
+<html>
+<head>
+     
+    <meta charset="UTF-8" />
+    <title>Sauve Les Migrants </title>
+		<script src="//cdn.jsdelivr.net/npm/phaser@3.22.0/dist/phaser.js"></script>
+       
+</head>
+<body>
+    <div>
+        
+<script type="text/javascript">
+
+var config = {
+    type: Phaser.AUTO,     
+    width: 1024,
+    height: 768,
+    dom: {
+    createContainer: true
+  },
+    physics: {
+        default: 'arcade',
+        gravity: { y: 900 },
+        arcade: {
+            debug: false
+        }
+    },
+    scene: {
+        preload: preload,   //Fonction pour preciser les précharges
+        create: create,     //Fonction pour créer les objets et les animations
+        update: update      //Fonction pour définir les actions   
+    }
+};
+var game = new Phaser.Game(config);  //l'objet de Phaser
+//Ici on définit les variables
+
+
+//
+
+var cursors;
+var positif;
+var negatif;
+var navire;
+var background;
+var alan;
+var damage=100;
+var migrant=0;
+var migrantTxt;
+var damageTxt;
+var infoTxt;
+var rock;
+var police;
+
+//
+//
+function preload ()
+{
+    
+    this.load.image('background1', 'photos/bal.GIF'); 
+    this.load.spritesheet('alanHorizon', 'photos/aman.png', { frameWidth: 144, frameHeight: 300 });  //mouvement horizontal
+    this.load.spritesheet('alanHaut', 'photos/loki.png', { frameWidth: 111, frameHeight: 200 }); //mouvement vers le haut
+    this.load.spritesheet('alanBas', 'photos/moki.png', { frameWidth: 111, frameHeight: 200 });  //mouvement vers le bas
+    this.load.image('yildiz', 'photos/as.png');
+    this.load.image('vague', 'photos/wave.png');
+    this.load.image('navireresim', 'photos/alan.png');
+    this.load.image('policeresim', 'photos/police2.png');
+    this.load.image('kaya', 'photos/rock3.png');
+    this.load.image('denek', 'photos/eze.png');
+    this.load.image('cocuk', 'photos/gulay2.png');
+    this.load.image('cezaevi', 'photos/prison.png');
+    
+}
+function create ()
+{   
+
+    face = this.add.image('cezaevi', 'photos/prison.png');
+    face = this.add.image('cocuk', 'photos/gulay2.png');
+    face = this.add.image('denek', 'photos/eze.png');
+    background = this.add.image(512, 384, 'background1'); 
+    alan = this.physics.add.sprite(100, 450, 'alanHorizon').setScale(0.3); //Ici,on ajoute notre caractére nommée "alan",on utilise la fonction setScale pour dimensionner 
+    cursors = this.input.keyboard.createCursorKeys();
+    negatif = this.physics.add.staticGroup();
+    for (i = 0; i < 25; i++)
+   {
+       x = Phaser.Math.Between(0, 1024);
+       y = Phaser.Math.Between(0, 768);
+    negatif.create(x, y, 'vague').refreshBody();
+   }
+   
+   for (i = 0; i < 10; i++)
+  {
+      x = Phaser.Math.Between(0, 1024);
+      y = Phaser.Math.Between(0, 768);
+      negatif.create(x, y, 'kaya').refreshBody();
+  }
+
+
+   positif = this.physics.add.staticGroup();
+   for (i = 0; i < 11; i++)
+  {
+      x = Phaser.Math.Between(0, 1024);
+      y = Phaser.Math.Between(0, 768);
+      positif.create(x, y, 'yildiz').refreshBody();
+  }
+    
+  police= this.physics.add.sprite(300, 300, 'policeresim').setScale(0.5);
+  navire = this.physics.add.sprite(700, 500, 'navireresim').setScale(0.5);
+  
+ //creaiton des reactions  entre alan et les objets
+ this.physics.add.overlap(alan, positif, ramasseDb, null, this);
+ this.physics.add.overlap(alan, negatif, vagueCarp, null, this);
+ this.physics.add.overlap(alan, navire, newScene, null, this);
+ this.physics.add.overlap(alan, police, newScene2, null, this);
+    
+    
+    this.anims.create({
+        key: 'up',
+        frames: this.anims.generateFrameNumbers('alanHaut', { start: 0, end: 3 }),
+        frameRate: 10,
+        repeat: -1
+    });
+    
+    this.anims.create({
+        key: 'down',
+        frames: this.anims.generateFrameNumbers('alanBas', { start: 0, end: 3 }),
+        frameRate: 10,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'left',
+        frames: this.anims.generateFrameNumbers('alanHorizon', { start: 0, end: 3 }),
+        frameRate: 10,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'turn',
+        frames: [ { key: 'alanHorizon', frame: 4 } ],
+        frameRate: 20
+    });
+    this.anims.create({
+        key: 'right',
+        frames: this.anims.generateFrameNumbers('alanHorizon', { start: 5, end: 8 }),
+        frameRate: 10,
+        repeat: -1
+    });
+    
+    migrantTxt = this.add.text(16, 16, 'migrant: 0',  { font: "bold 24px Verdana", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" });
+    damageTxt = this.add.text(16, 46, 'damage: 100', {font: "bold 24px Verdana", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle"});
+    infoTxt = this.add.text(this.scene.centerX, this.scene.centerY,  '', { font: "bold 64px Verdana", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" })
+    
+    
+
+
+
+}
+    
+function update ()
+{
+
+       if (cursors.up.isDown)
+    {   
+        alan.setVelocityY(-160);
+        alan.anims.play('up', true);
+    }
+   else if (cursors.down.isDown)
+    {
+        alan.setVelocityY(160);
+        alan.anims.play('down', true);
+    }
+    
+        else
+    {
+        alan.setVelocityY(0);
+
+    }
+
+    
+    if (cursors.left.isDown)
+    {
+        alan.setVelocityX(-160);
+
+        alan.anims.play('left', true);
+    }
+    else if (cursors.right.isDown)
+    {
+        alan.setVelocityX(160);
+        alan.anims.play('right', true);
+    }
+
+    else
+    {
+        alan.setVelocityX(0);
+    }
+    
+    if (!(cursors.left.isDown||cursors.right.isDown||cursors.up.isDown||cursors.down.isDown)) 
+        {
+          alan.anims.play('turn');
+        }
+    
+        if (damage < 10)
+    {
+        face = this.add.image( 500, 450, "denek");
+        infoTxt = this.add.text(this.scene.centerX, this.scene.centerY,  "Au secours!!!", { font: "bold 64px Verdana", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" }) ;
+        infoTxt.setTint(0xff00ff, 0xffff00, 0x0000ff, 0xff0000);
+        Phaser.Display.Align.In.Center(infoTxt, this.add.zone(512, 354, 1024, 768));
+        alan.destroy();
+        police.destroy();
+        background.destroy();
+        damageTxt.destroy();
+        navire.destroy();
+        Phaser.Actions.SetVisible(negatif.getChildren(), false);
+        negatif.clear();
+        Phaser.Actions.SetVisible(positif.getChildren(), false);
+        positif.clear();
+        
+        return;
+    }
+
+}
+    
+//les autres fontions
+function vagueCarp (alan, negatif)
+{  //la reaction entre alan et vague(le feur) pour diminuer damage
+  negatif.disableBody(true, true);
+    
+  damage -= 10;
+  damageTxt.setText('damage: ' + damage);  
+}
+
+function ramasseDb (alan, positif)
+{   // La reaction entre alan et migrant pour augmenter le nombre 
+    positif.disableBody(true, true); 
+    
+    migrant += 1;
+    migrantTxt.setText('migrant: ' + migrant);
+}
+
+function newScene (alan, navire)
+{
+     if (migrant>=10){
+    infoTxt.setVisible(true);
+    face = this.add.image( 500, 450, "cocuk");
+    infoTxt.setText('Merci, vous m`avez sauvé!');  
+    infoTxt.setTint(0xff00ff, 0xffff00, 0x0000ff, 0xff0000);
+    Phaser.Display.Align.In.Center(infoTxt, this.add.zone(512, 154, 1024, 768));
+    alan.setX(0);
+    alan.setY(0);
+    // alan.setScale(1);
+    alan.disableInteractive();
+    police.destroy();
+    background.destroy();
+    navire.destroy();
+    Phaser.Actions.SetVisible(negatif.getChildren(), false);
+    negatif.clear();
+    Phaser.Actions.SetVisible(positif.getChildren(), false);
+    positif.clear();
+    alan.anims.play('turn');
+  
+    }
+    
+    else {
+    infoTxt.setVisible(true);
+    infoTxt.setText('Sauvez Tous les Migrants !!!');     
+    infoTxt.setTint(0xff00ff, 0xffff00, 0x0000ff, 0xff0000);
+    Phaser.Display.Align.In.Center(infoTxt, this.add.zone(512, 354, 1024, 768)); 
+    this.time.delayedCall(1000, cacheInfo, [], this);      
+  }
+
+}
+function cacheInfo ()
+{
+    infoTxt.setVisible(false);
+}
+///time icin
+function newScene2 (alan, police)
+{
+     if (migrant>=0){
+    infoTxt.setVisible(true);
+    face = this.add.image( 500, 450, "cezaevi");
+    infoTxt.setText('PRISON!');  
+    infoTxt.setTint(0xff00ff, 0xffff00, 0x0000ff, 0xff0000);
+    Phaser.Display.Align.In.Center(infoTxt, this.add.zone(512, 154, 1024, 768));
+    alan.setX(0);
+    alan.setY(0);
+    // alan.setScale(1);
+    alan.disableInteractive();
+    police.destroy();
+    background.destroy();
+    navire.destroy();
+    Phaser.Actions.SetVisible(negatif.getChildren(), false);
+    negatif.clear();
+    Phaser.Actions.SetVisible(positif.getChildren(), false);
+    positif.clear();
+    alan.anims.play('turn');
+  
+    }
+
+
+}
+//
+</script>
+    </div>
+</body>
+</html>
