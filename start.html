@@ -1,0 +1,104 @@
+ 
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Alan Kurdi</title>
+<link href="style.css" rel="stylesheet" type="text/css">
+</head>
+ 
+<body>
+<div class="sayfa">
+	<div id="ust">
+          <center> <h1 id="logo"> À la mémoire d'Aylan Kurdi,Sauvez les Migrants !!!</h1></center>
+           
+		<div class="temizle"></div>
+	</div>
+	<div id="icerik">
+		<div id="galeri">
+            <!-- <img src="photos/alan2.png" alt="resim1"> -->
+            <iframe id="myframe" src="photos/alan32.png" width="1024" height="768" frameborder="10" scrolling="no" ></iframe>
+
+		</div>
+		<div class="yazi">
+			<h1>L'histoire</h1>
+        <p>Le 2 septembre 2015, Alan Kurdi, 2 ans, et sa famille syrienne d'origine kurde ont tenté de traverser la mer Égée pour rejoindre la Grèce. Leur bateau, surchargé, a coulé près des côtes turques, provoquant la mort du petit garçon, de son frère Ghalib, 4 ans, et de leur mère Rehanna. À cette période, des milliers d’enfants avaient déjà péri, tués par la guerre civile en Syrie ou noyés en mer Méditerranée en tentant de rejoindre l'Europe. Des milliers d’autres ont continué à mourir les années suivantes."</p>
+		</div>
+		<div class="yazim">
+            <h1>Le jeux vidéo</h1>
+            <br>
+
+            <center> <button onclick="myFunction() " class="button1">Play</button>
+            <button onclick="myFunction2() " class="button2">Close</button></center>
+           <!-- <center> <input type="button" value= "START GAME" onclick="openPopup()" class="button1"/>
+            <input type="button" value= "CLOSE GAME" onclick="closePopup()" class="button2"/></center> -->
+           
+           
+            <br>
+           <center> <button onclick="play()" class="button3">Play Music</button>
+
+            <button onclick="pause()"class="button4">Pause Music</button> </center>
+           
+           
+            
+		</div>
+		<div class="yazi">
+			<h1>À propos du jeu</h1>
+			<p>Ce jeu a été développé dans le cadre du cours Développement de jeux vidéo 2D dispensé par <i>Isaac Pante (SLI, Lettres, UNIL) </i>afin qu’appliquer les méthodologies et les notions enseignées dans la création d’un jeu vidéo. Le but de ce jeux est de sauver les migrants en mer par le navire humanitaire Alan Kurdi. </p>
+		</div> 
+        <div class="temizle"></div>
+        <!-- <p>"Ce jeux video est dédié à la mémoire des victimes anonymes des naufrages." </p> -->
+    </div>
+    <marquee direction=right>
+
+        <img src="photos/alan3.png">
+        
+        </marquee>
+</div>
+
+<script type="text/javascript">
+//     var popup;
+//     function openPopup() 
+//     {
+
+// popup = window.open("saveMigrants.html", "My Window", "height=600, width=800")
+
+//     }
+
+// function closePopup()
+// {
+
+// popup.close(); 
+
+// }
+
+    audio = new Audio();
+  
+    audio.src = "music/golha.mp3";
+  
+    audio.loop = true;
+  
+    audio.play();
+   
+    function play() {
+      audio.play();
+    }
+
+    function pause() {
+      audio.pause();
+    }  
+
+    function myFunction() {
+  document.getElementById("myframe").src = "saveMigrants.html";
+}
+
+
+function myFunction2() {
+  document.getElementById("myframe").src = "photos/alan32.png";
+}
+
+
+    </script>
+
+</body>
+</html>
